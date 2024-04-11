@@ -46,7 +46,8 @@
     "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only .",
     "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
-    "test": "jest"
+    "test": "jest",
+    "commit": "cz"
   },
   "browserslist": [],
   "prettier": {
@@ -122,13 +123,15 @@
     "@typescript-eslint/parser": "^6.7.0",
     "browserslist-config-erb": "^0.0.3",
     "chalk": "^4.1.2",
+    "commitizen": "^4.3.0",
     "concurrently": "^8.2.1",
     "core-js": "^3.32.2",
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
+    "cz-conventional-changelog": "^3.3.0",
     "detect-port": "^1.5.1",
-    "electron": "^26.2.1",
+    "electron": "^26.6.10",
     "electron-builder": "^24.6.4",
     "electron-devtools-installer": "^3.2.0",
     "electronmon": "^2.0.2",
@@ -247,5 +250,10 @@
       "src/main/**"
     ],
     "logLevel": "quiet"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
