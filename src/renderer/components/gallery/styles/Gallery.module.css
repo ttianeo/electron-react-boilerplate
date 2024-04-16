@@ -1,0 +1,45 @@
+.horizontal {
+  height: 100%;
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  margin: auto;
+  white-space: nowrap;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.content {
+  display: inline-block;
+  height: 100%;
+  position: relative;
+}
+
+.item {
+  height: 50px;
+  line-height: 50px;
+  font-size: 24px;
+  display: inline-block;
+  text-align: center;
+  height: 100%;
+  position: relative;
+}
+
+.item img {
+  object-fit: cover;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 90%;
+  align-items: center;
+  position: relative;
+  margin: 5% 0;
+}
+
+.item.active img {
+  border: 4px solid #2a82e4;
+  height: 100%;
+  margin: 0;
+}
