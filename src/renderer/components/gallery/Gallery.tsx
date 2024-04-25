@@ -20,7 +20,6 @@ export default function Gallery({
   const ref = React.useRef<HTMLDivElement | null>(null);
   const [bs, setBs] = React.useState<BScroll | null>(null);
 
-  // BSroll
   useEffect(() => {
     if (ref.current) {
       const s = new BScroll(ref.current, {

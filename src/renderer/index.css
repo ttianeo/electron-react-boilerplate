@@ -16,4 +16,25 @@ body {
 
 * {
   box-sizing: border-box;
+  font-family: 'Inter', 'NotoSansSC', 'Roboto', sans-serif;
+}
+
+@font-face {
+  font-family: 'NotoSansSC';
+  src: url('/assets/fonts/NotoSansSC/NotoSansSC-VariableFont.ttf');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/Inter/Inter-VariableFontt.ttf');
+  font-display: swap;
+}
+
+/* 在线链接服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
+@font-face {
+  font-family: 'ArtSDIcon';  /* Project id 4524558 */
+  src: url('//at.alicdn.com/t/c/font_4524558_dulu0ssh9w.woff2?t=1714051664098') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4524558_dulu0ssh9w.woff?t=1714051664098') format('woff'),
+       url('//at.alicdn.com/t/c/font_4524558_dulu0ssh9w.ttf?t=1714051664098') format('truetype');
 }

@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
-import style from './styles/Camera.module.css';
+import React, { useEffect, useState } from 'react';
+import styles from './styles/Camera.module.css';
 
 export interface CameraProps {
   status: string;
   finish: (image: File) => void;
+  style?: React.CSSProperties;
 }
 
-export default function Camera({ status, finish }: CameraProps) {
+export default function Camera({ status, finish, style }: CameraProps) {
   const [count, setCount] = useState(5);
   const [countShow, setCountShow] = useState(false);
 
@@ -59,14 +60,14 @@ export default function Camera({ status, finish }: CameraProps) {
   }, []);
 
   return (
-    <div className={style.camera}>
+    <div className={styles.camera} style={style}>
       <video id="camera" width="640" height="480" autoPlay>
         <track kind="captions" />
       </video>
-      <div className={style.mask}>
+      <div className={styles.mask}>
         {!countShow && (
           <div
-            className={style.start}
+            className={styles.start}
             onClick={() => {
               start();
             }}
@@ -74,19 +75,43 @@ export default function Camera({ status, finish }: CameraProps) {
             role="button"
             tabIndex={0}
           >
-            开始拍照
+            <div
+              style={{
+                fontFamily: 'ArtSDIcon',
+                display: 'block',
+                fontSize: '4rem',
+                marginBottom: '1rem',
+                color: '#2A82E4',
+              }}
+            >
+              &#xe870;
+            </div>
+            <div>
+              <span
+                style={{
+                  fontSize: '1rem',
+                  color: '#2A82E4',
+                }}
+              >
+                开始拍照
+              </span>
+            </div>
           </div>
         )}
-        {countShow && <div className={style.count}>{count}</div>}
+        {countShow && <div className={styles.count}>{count}</div>}
         <img
           id="res"
           alt="result"
           style={{
             display: status === 'finish' ? 'block' : 'none',
           }}
-          className={style.result}
+          className={styles.result}
         />
       </div>
     </div>
   );
 }
+
+Camera.defaultProps = {
+  style: {},
+};
