@@ -123,6 +123,7 @@ export default function Home() {
               &#xe86f;
             </span>
           }
+          text="点击拍照试试吧"
           style={{
             position: 'absolute',
             top: -200,

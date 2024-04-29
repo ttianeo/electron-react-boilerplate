@@ -11,3 +11,31 @@
   cursor: pointer;
   text-align: center;
 }
+
+.text {
+  font-size: 1rem;
+  font-weight: normal;
+  position: absolute;
+  padding: 0.5rem;
+  background-color: #455066ce;
+  top: 50%;
+  right: -80px;
+  transform: translate(calc(-180px), -50%);
+  border-radius: 0.5rem;
+  color: rgb(212, 212, 212);
+}
+
+.text:after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  bottom: 25%;
+  width: 0;
+  height: 0;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent;
+  border-left-width: 16px;
+  border-left-color: currentColor;
+  color: #455066ce;
+}

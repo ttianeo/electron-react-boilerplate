@@ -17,6 +17,7 @@ function ResetOrGenerateBtn({ onclick, url }: ResetOrGenerateBtnProps) {
       onclick={() => {
         onclick();
       }}
+      text="点我生成"
       icon={
         url === '' ? (
           <span
@@ -184,6 +185,7 @@ export default function Photo() {
                 setCurImgUrl('');
                 setStatus('start');
               }}
+              text="不满意？点我重拍"
               icon={
                 <span
                   style={{
