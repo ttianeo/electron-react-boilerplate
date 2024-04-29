@@ -231,7 +231,11 @@
       "output": "release/build"
     },
     "extraResources": [
-      "./assets/**"
+      "./assets/**",
+      {
+        "from": "./config.json",
+        "to": "../"
+      }
     ],
     "publish": {
       "provider": "github",

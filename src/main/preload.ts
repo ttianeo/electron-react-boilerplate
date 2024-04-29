@@ -2,7 +2,17 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
-export type Channels = 'ipc-example';
+export type Channels =
+  | 'print-image-request'
+  | 'print-image-start'
+  | 'print-image-done'
+  | 'print-printers'
+  | 'print-printers-reply'
+  | 'config-read'
+  | 'config-read-reply'
+  | 'config-write'
+  | 'config-hash'
+  | 'config-hash-reply';
 
 const electronHandler = {
   ipcRenderer: {

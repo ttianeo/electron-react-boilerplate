@@ -51,14 +51,8 @@ export default function Photo() {
   const router = useNavigate();
   const [styles, setStyles] = useState([
     { key: '1', src: 'https://iph.href.lu/500x800?fg=666666&bg=cccccc&text=1' },
-    { key: '2', src: 'https://iph.href.lu/500x800?fg=666666&bg=cccccc&text=2' },
-    { key: '3', src: 'https://iph.href.lu/500x800?fg=666666&bg=cccccc&text=3' },
   ]);
-  const [gen, setGen] = useState([
-    { key: '1', src: '', imgID: '' },
-    { key: '2', src: '', imgID: '' },
-    { key: '3', src: '', imgID: '' },
-  ]);
+  const [gen, setGen] = useState([{ key: '1', src: '', imgID: '' }]);
 
   const [curImgUrl, setCurImgUrl] = useState('' as string);
 

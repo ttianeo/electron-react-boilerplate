@@ -1,9 +1,8 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import axios from 'axios';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home';
 import Photo from './pages/photo/Photo';
-
-axios.defaults.baseURL = 'http://localhost:8080/';
+import Print from './pages/print/Print';
+import Preference from './pages/preference/Preference';
 
 export default function App() {
   return (
@@ -11,6 +10,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/photo" element={<Photo />} />
+        <Route path="/print" element={<Print />} />
+        <Route path="/preference" element={<Preference />} />
       </Routes>
     </Router>
   );

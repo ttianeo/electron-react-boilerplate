@@ -9,13 +9,43 @@ export default function Home() {
   const [index, setIndex] = useState(0);
   const [images, setImages] = useState([
     { key: '1', src: 'https://iph.href.lu/500x800?fg=666666&bg=cccccc&text=1' },
-    { key: '2', src: 'https://iph.href.lu/500x800?fg=666666&bg=cccccc&text=2' },
-    { key: '3', src: 'https://iph.href.lu/500x800?fg=666666&bg=cccccc&text=3' },
   ]);
 
   const router = useNavigate();
 
+  const [printing, setPrinting] = useState(false);
+
   useEffect(() => {
+    window.electron.ipcRenderer.sendMessage('config-hash');
+    window.electron.ipcRenderer.on('config-hash-reply', (event: any) => {
+      const config = localStorage.getItem('config');
+      if (!config) {
+        router('/preference');
+      }
+      // 计算hash
+      crypto.subtle
+        .digest('SHA-256', new TextEncoder().encode(config?.toString() || ''))
+        .then((hash) => {
+          const h = Array.from(new Uint8Array(hash))
+            .map((b) => b.toString(16).padStart(2, '0'))
+            .join('');
+          if (h !== event) {
+            router('/preference');
+          }
+          return hash;
+        })
+        .catch((err) => {
+          router('/preference');
+          return err;
+        });
+    });
+    const config = localStorage.getItem('config');
+    axios.defaults.baseURL = JSON.parse(config || '{}').backend;
+
+    window.electron.ipcRenderer.on('print-image-done', () => {
+      setPrinting(false);
+    });
+
     axios
       .get('/history')
       .then((res) => {
@@ -32,10 +62,25 @@ export default function Home() {
       .catch((err) => {
         return err;
       });
-  }, []);
+  }, [router]);
 
   return (
     <div className={style.home}>
+      <div
+        className={style.noopMask}
+        style={{
+          display: printing ? 'flex' : 'none',
+        }}
+      >
+        <span
+          style={{
+            fontFamily: 'ArtSDIcon',
+          }}
+          className={style.load}
+        >
+          &#xe891;
+        </span>
+      </div>
       <img
         src={images[index].src}
         alt={images[index].key}
@@ -44,7 +89,10 @@ export default function Home() {
       <div className={style.gallery}>
         <Button
           onclick={() => {
-            router('/photo');
+            window.electron.ipcRenderer.sendMessage('print-image-request', [
+              images[index].src,
+            ]);
+            setPrinting(true);
           }}
           icon={
             <span
@@ -83,9 +131,7 @@ export default function Home() {
           }}
         />
         <Button
-          onclick={() => {
-            router('/photo');
-          }}
+          onclick={() => {}}
           icon={
             <span
               style={{
