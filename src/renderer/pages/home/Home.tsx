@@ -52,7 +52,7 @@ export default function Home() {
         const img = [] as { key: string; src: string }[];
         for (let i = 0; i < res.data.data.length; i += 1) {
           img.push({
-            key: res.data.data[i].path,
+            key: res.data.data[i].id,
             src: `${axios.defaults.baseURL}static${res.data.data[i].path}`,
           });
         }
@@ -132,7 +132,30 @@ export default function Home() {
           }}
         />
         <Button
-          onclick={() => {}}
+          onclick={() => {
+            const form = new FormData();
+            form.append('id', images[index].key);
+            axios
+              .delete('/picture', {
+                data: form,
+              })
+              .then(() => {
+                const img = images;
+                img.splice(index, 1);
+                setImages(img);
+                console.log(index, img.length);
+                if (index === img.length) {
+                  setIndex(index - 1);
+                }
+
+                window.location.reload();
+
+                return img;
+              })
+              .catch((err) => {
+                return err;
+              });
+          }}
           icon={
             <span
               style={{
