@@ -75,11 +75,11 @@ export default function Photo() {
           const g = gen;
           g[
             index
-          ].src = `${axios.defaults.baseURL}static${res.data.data.static_url}`;
+          ].src = `${axios.defaults.baseURL}minio${res.data.data.processed_url}`;
           g[index].imgID = res.data.data.id;
           setGen(g);
           setCurImgUrl(
-            `${axios.defaults.baseURL}static${res.data.data.static_url}`,
+            `${axios.defaults.baseURL}minio${res.data.data.processed_url}`,
           );
           setLoading(false);
           return res.data;
@@ -104,7 +104,7 @@ export default function Photo() {
         for (let i = 0; i < res.data.data.length; i += 1) {
           s.push({
             key: res.data.data[i].styleid,
-            src: `${axios.defaults.baseURL}static${res.data.data[i].path}`,
+            src: `${axios.defaults.baseURL}minio${res.data.data[i].path}`,
           });
           g.push({
             key: res.data.data[i].styleid,

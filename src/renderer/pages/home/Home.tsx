@@ -50,10 +50,13 @@ export default function Home() {
       .get('/history')
       .then((res) => {
         const img = [] as { key: string; src: string }[];
+        if (res.data.data.length === 0) {
+          return res.data;
+        }
         for (let i = 0; i < res.data.data.length; i += 1) {
           img.push({
             key: res.data.data[i].id,
-            src: `${axios.defaults.baseURL}static${res.data.data[i].path}`,
+            src: `${axios.defaults.baseURL}minio${res.data.data[i].processed_url}`,
           });
         }
         setImages(img);
