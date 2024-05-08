@@ -51,7 +51,11 @@ export default function Photo() {
   const [index, setIndex] = useState(0);
   const router = useNavigate();
   const [styles, setStyles] = useState([
-    { key: '1', src: 'https://iph.href.lu/500x800?fg=666666&bg=cccccc&text=1' },
+    {
+      key: '1',
+      src: 'https://iph.href.lu/500x800?fg=666666&bg=cccccc&text=1',
+      nickname: 'name',
+    },
   ]);
   const [gen, setGen] = useState([{ key: '1', src: '', imgID: '' }]);
 
@@ -99,12 +103,13 @@ export default function Photo() {
     axios
       .get('/stylelist')
       .then((res) => {
-        const s = [] as { key: string; src: string }[];
+        const s = [] as { key: string; src: string; nickname: string }[];
         const g = [] as { key: string; src: string; imgID: string }[];
         for (let i = 0; i < res.data.data.length; i += 1) {
           s.push({
             key: res.data.data[i].styleid,
             src: `${axios.defaults.baseURL}minio${res.data.data[i].path}`,
+            nickname: res.data.data[i].nickname,
           });
           g.push({
             key: res.data.data[i].styleid,

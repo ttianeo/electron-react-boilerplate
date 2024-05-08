@@ -55,14 +55,53 @@ export default function Camera({ status, finish, style }: CameraProps) {
             }
             ctx.drawImage(video, meta.x, meta.y, meta.width, meta.height);
 
-            canvas.toBlob((blob) => {
+            // 裁剪掉多余的部分
+
+            // canvas.toBlob((blob) => {
+            //   if (blob) {
+            //     finish(new File([blob], 'image.png'));
+            //   }
+            // });
+            // const data = canvas.toDataURL('image/png');
+            const img = document.getElementById('res') as HTMLImageElement;
+            const clip = {
+              width: canvas.clientWidth,
+              height: canvas.clientHeight,
+            };
+            const scale = clip.height / canvas.height;
+            // 裁剪中间部分
+            const x = (canvas.width - clip.width / scale) / 2;
+            const y = 0;
+            const clipCanvas = document.createElement('canvas');
+            clipCanvas.width = clip.width;
+            clipCanvas.height = clip.height;
+
+            // 缩放+裁剪, 保持比例，高度撑满
+
+            const clipCtx = clipCanvas.getContext('2d');
+            if (clipCtx) {
+              clipCtx.drawImage(
+                canvas,
+                x,
+                y,
+                canvas.width - x * 2,
+                canvas.height,
+                0,
+                0,
+                clip.width,
+                clip.height,
+              );
+            }
+            const clipData = clipCanvas.toDataURL('image/png');
+
+            clipCanvas.toBlob((blob) => {
               if (blob) {
                 finish(new File([blob], 'image.png'));
               }
             });
-            const data = canvas.toDataURL('image/png');
-            const img = document.getElementById('res') as HTMLImageElement;
-            img.src = data;
+
+            img.src = clipData;
+            img.onload = () => {};
           }
           return 5;
         }

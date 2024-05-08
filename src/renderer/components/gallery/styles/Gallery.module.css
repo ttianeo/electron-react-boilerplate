@@ -43,3 +43,25 @@
   height: 100%;
   margin: 0;
 }
+
+.labelCT {
+  left: 0,
+}
+
+.labelCT.active {
+  left: 4px,
+}
+
+.label {
+  background-color: #00000066;
+  display: block;
+  color: #fff;
+  padding: 4px 8px;
+  width: calc(100% - 10px);
+  line-height: 1;
+  text-align: center;
+}
+
+.label.active {
+  width: calc(100% - 18px);
+}

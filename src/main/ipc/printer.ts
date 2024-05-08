@@ -22,8 +22,8 @@ export default function ipcPrinter(mainWindow: BrowserWindow) {
     // 调出隐藏的打印窗口
     pWindow = new BrowserWindow({
       show: false,
-      width: 860,
-      height: 1020,
+      width: 120,
+      height: 120,
       webPreferences: {
         preload,
         webSecurity: false,
@@ -49,16 +49,20 @@ export default function ipcPrinter(mainWindow: BrowserWindow) {
             marginType: 'none',
           },
           deviceName: config.print.printer,
-          // 修改纸张大小
+          dpi: {
+            horizontal: 300,
+            vertical: 300,
+          },
           pageSize: {
-            height: 102000,
-            width: 86000,
+            height: 76200,
+            width: 76200,
           },
         },
-        () => {
+        (s, e) => {
           mainWindow?.webContents.send('print-image-done');
           pWindow?.close();
           pWindow = null;
+          console.log(s, e);
         },
       );
     });

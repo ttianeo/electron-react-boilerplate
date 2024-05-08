@@ -3,7 +3,7 @@ import BScroll from '@better-scroll/core';
 import style from './styles/Gallery.module.css';
 
 export interface GalleryProps {
-  images: { key: string; src: string }[];
+  images: { key: string; src: string; nickname: string }[];
   active?: number;
   width?: number;
   gap?: string;
@@ -72,6 +72,27 @@ export default function Gallery({
                   width,
                 }}
               />
+              {image.nickname && (
+                <div
+                  style={{
+                    position: 'relative',
+                    top: -49,
+                    textAlign: 'left',
+                    fontSize: 20,
+                  }}
+                  className={
+                    style.labelCT + (active === index ? ` ${style.active}` : ``)
+                  }
+                >
+                  <span
+                    className={
+                      style.label + (active === index ? ` ${style.active}` : ``)
+                    }
+                  >
+                    {image.nickname}
+                  </span>
+                </div>
+              )}
             </div>
           ))}
         </div>
