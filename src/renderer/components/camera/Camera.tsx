@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styles from './styles/Camera.module.css';
+import face from './face.png';
 
 export interface CameraProps {
   status: string;
@@ -228,7 +229,37 @@ export default function Camera({ status, finish, style }: CameraProps) {
             </div>
           </div>
         )}
-        {countShow && <div className={styles.count}>{count}</div>}
+        {countShow && (
+          <div className={styles.count}>
+            <div
+              style={{
+                textAlign: 'center',
+              }}
+            >
+              {count}
+            </div>
+            <div
+              style={{
+                fontSize: '2rem',
+                textAlign: 'center',
+              }}
+            >
+              请保持面部在框内
+            </div>
+          </div>
+        )}
+
+        <div className={styles.vface}>
+          <img
+            src={face}
+            alt="face"
+            id="vface"
+            style={{
+              width: '100%',
+            }}
+          />
+        </div>
+
         <img
           id="res"
           alt="result"

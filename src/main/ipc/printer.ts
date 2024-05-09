@@ -19,18 +19,23 @@ export default function ipcPrinter(mainWindow: BrowserWindow) {
         : path.join(__dirname, '../', '../../.erb/dll/preload.js');
     }
 
-    // 调出隐藏的打印窗口
-    pWindow = new BrowserWindow({
-      show: false,
-      width: 120,
-      height: 120,
-      webPreferences: {
-        preload,
-        webSecurity: false,
-        devTools: true,
-      },
+    const cpath = path.join('./', 'config.json');
+    fs.readFile(cpath, 'utf-8', (err: any, data: any) => {
+      const config = JSON.parse(data);
+      pWindow = new BrowserWindow({
+        show: false,
+        width: config.print.page === '3inch' ? 120 : 120,
+        height: config.print.page === '3inch' ? 120 : 180,
+        webPreferences: {
+          preload,
+          webSecurity: false,
+          devTools: true,
+        },
+      });
+      pWindow.loadURL(`${resolveHtmlPath(`index.html`)}#/print/?src=${arg}`); // 加载打印页面
     });
-    pWindow.loadURL(`${resolveHtmlPath(`index.html`)}#/print/?src=${arg}`); // 加载打印页面
+
+    // 调出隐藏的打印窗口
   });
 
   // 开始正式打印，渲染进程的图像加载完毕后发送start打印开始请求
@@ -41,6 +46,7 @@ export default function ipcPrinter(mainWindow: BrowserWindow) {
     const cpath = path.join('./', 'config.json');
     fs.readFile(cpath, 'utf-8', (err: any, data: any) => {
       const config = JSON.parse(data);
+      console.log(config.print.page);
       pWindow?.webContents.print(
         {
           silent: true,
@@ -54,15 +60,14 @@ export default function ipcPrinter(mainWindow: BrowserWindow) {
             vertical: 300,
           },
           pageSize: {
-            height: 76200,
-            width: 76200,
+            height: config.print.page === '3inch' ? 76200 : 152400,
+            width: config.print.page === '3inch' ? 76200 : 101600,
           },
         },
-        (s, e) => {
+        () => {
           mainWindow?.webContents.send('print-image-done');
           pWindow?.close();
           pWindow = null;
-          console.log(s, e);
         },
       );
     });

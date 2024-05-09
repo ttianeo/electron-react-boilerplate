@@ -3,7 +3,7 @@ import BScroll from '@better-scroll/core';
 import style from './styles/Gallery.module.css';
 
 export interface GalleryProps {
-  images: { key: string; src: string; nickname: string }[];
+  images: { key: string; src: string; nickname: string | null }[];
   active?: number;
   width?: number;
   gap?: string;

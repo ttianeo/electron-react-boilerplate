@@ -14,6 +14,7 @@ export default function Preference() {
 
   const [config, setConfig] = useState({
     backend: '',
+    sn: '',
     camera: {
       device: '',
       rotate: '',
@@ -24,6 +25,7 @@ export default function Preference() {
         width: 0,
         height: 0,
       },
+      page: '3inch',
     },
   });
 
@@ -80,7 +82,7 @@ export default function Preference() {
       <h1>Preference</h1>
       <form>
         <div>
-          Backend:
+          Backend(以‘/’结束):
           <input
             type="text"
             value={config.backend}
@@ -159,7 +161,7 @@ export default function Preference() {
             ))}
           </select>
         </div>
-        <div>
+        <div style={{ display: 'none' }}>
           Width(um):
           <input
             type="number"
@@ -178,7 +180,7 @@ export default function Preference() {
             }}
           />
         </div>
-        <div>
+        <div style={{ display: 'none' }}>
           Height(um):
           <input
             type="number"
@@ -197,6 +199,29 @@ export default function Preference() {
             }}
           />
         </div>
+        <div>
+          Page:
+          <select
+            value={config.print.page}
+            onChange={(e) => {
+              setConfig({
+                ...config,
+                print: {
+                  ...config.print,
+                  page: e.target.value,
+                },
+              });
+            }}
+          >
+            <option key="3inch" value="3inch">
+              3inch
+            </option>
+            <option key="6inch" value="6inch">
+              6inch
+            </option>
+          </select>
+        </div>
+        <div>SN: {config.sn}</div>
         <div>
           <button type="button" onClick={save}>
             Save

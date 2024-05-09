@@ -36,6 +36,7 @@ export default function Print() {
           objectFit: 'cover',
           width: '100%',
           height: '100%',
+          transform: 'scaleX(-1)',
         }}
       />
       <span>{log}</span>

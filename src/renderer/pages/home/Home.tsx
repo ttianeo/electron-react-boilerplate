@@ -4,11 +4,16 @@ import axios from 'axios';
 import Gallery from '../../components/gallery/Gallery';
 import style from './styles/Home.module.css';
 import Button from '../../components/button/Button';
+import sn from '../../inter/sn';
 
 export default function Home() {
   const [index, setIndex] = useState(0);
   const [images, setImages] = useState([
-    { key: '1', src: 'https://iph.href.lu/500x800?fg=666666&bg=cccccc&text=1' },
+    {
+      key: '1',
+      src: 'https://iph.href.lu/500x800?fg=666666&bg=cccccc&text=1',
+      nickname: null as string | null,
+    },
   ]);
 
   const router = useNavigate();
@@ -41,6 +46,7 @@ export default function Home() {
     });
     const config = localStorage.getItem('config');
     axios.defaults.baseURL = JSON.parse(config || '{}').backend;
+    axios.interceptors.request.use(sn);
 
     window.electron.ipcRenderer.on('print-image-done', () => {
       setPrinting(false);
@@ -49,7 +55,11 @@ export default function Home() {
     axios
       .get('/history')
       .then((res) => {
-        const img = [] as { key: string; src: string }[];
+        const img = [] as {
+          key: string;
+          src: string;
+          nickname: string | null;
+        }[];
         if (res.data.data.length === 0) {
           return res.data;
         }
@@ -57,6 +67,7 @@ export default function Home() {
           img.push({
             key: res.data.data[i].id,
             src: `${axios.defaults.baseURL}minio${res.data.data[i].processed_url}`,
+            nickname: null,
           });
         }
         setImages(img);
@@ -146,7 +157,6 @@ export default function Home() {
                 const img = images;
                 img.splice(index, 1);
                 setImages(img);
-                console.log(index, img.length);
                 if (index === img.length) {
                   setIndex(index - 1);
                 }

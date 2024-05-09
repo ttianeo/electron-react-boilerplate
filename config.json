@@ -1,1 +1,1 @@
-{"backend":"http://localhost:8080/","camera":{"device":"dc2ee04a5987ca9881828aa17e585dc6da5f52764d83c2731970735ec1b48f1d","rotate":"0"},"print":{"printer":"Mi Wireless Photo Printer 1S [4480] - Wi-Fi","size":{"width":120000,"height":120000}}}
+{"backend":"http://localhost:8080/","camera":{"device":"e9924090ace435e9e9e23817c1639651ddbe68e9104f3805b90a497cd06b27fb","rotate":"0"},"print":{"printer":"Mi Wireless Photo Printer 1S [4480] - Wi-Fi","size":{"width":0,"height":0},"page":"3inch"},"sn":"c2bacef8-77d7-4a15-9596-e3dd46f4d414"}
