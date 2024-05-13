@@ -57,6 +57,7 @@ export default function Photo() {
       nickname: 'name',
     },
   ]);
+  const [bg, setBg] = useState(false);
   const [gen, setGen] = useState([{ key: '1', src: '', imgID: '' }]);
 
   const [curImgUrl, setCurImgUrl] = useState('' as string);
@@ -68,6 +69,7 @@ export default function Photo() {
       const form = new FormData();
       form.append('img', photo);
       form.append('style', styles[index].key);
+      form.append('background', `${bg}`);
       setLoading(true);
       axios
         .post('/generate', form, {
@@ -185,6 +187,28 @@ export default function Photo() {
         />
         {status === 'finish' && (
           <>
+            <Button
+              onclick={() => {
+                setBg(!bg);
+              }}
+              text="背景虚化"
+              active={bg}
+              icon={
+                <span
+                  style={{
+                    fontFamily: 'ArtSDIcon',
+                  }}
+                >
+                  &#xe617;
+                </span>
+              }
+              style={{
+                position: 'absolute',
+                top: -270,
+                left: 10,
+                zIndex: 100,
+              }}
+            />
             <Button
               onclick={() => {
                 setCurImgUrl('');

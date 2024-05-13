@@ -10,7 +10,14 @@
   height: 80px;
   cursor: pointer;
   text-align: center;
+  transition: background-color 0.3s;
 }
+
+.button.disabled {
+  background-color: rgba(150, 150, 150, 0.6);
+  cursor: not-allowed;
+}
+
 
 .text {
   font-size: 1rem;

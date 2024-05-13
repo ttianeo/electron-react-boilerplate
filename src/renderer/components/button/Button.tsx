@@ -6,9 +6,16 @@ export interface ButtonProps {
   style?: React.CSSProperties;
   icon: React.ReactNode;
   text?: string;
+  active?: boolean;
 }
 
-export default function Button({ onclick, style, icon, text }: ButtonProps) {
+export default function Button({
+  onclick,
+  style,
+  icon,
+  text,
+  active,
+}: ButtonProps) {
   return (
     <div style={style}>
       {text !== '' && <div className={styles.text}>{text}</div>}
@@ -20,7 +27,9 @@ export default function Button({ onclick, style, icon, text }: ButtonProps) {
         tabIndex={0}
         type="button"
         style={{ fontStyle: 'normal' }}
-        className={styles.button}
+        className={
+          styles.button + (active ? ` ${styles.active}` : ` ${styles.disabled}`)
+        }
       >
         {icon}
       </button>
@@ -31,4 +40,5 @@ export default function Button({ onclick, style, icon, text }: ButtonProps) {
 Button.defaultProps = {
   style: {},
   text: '',
+  active: true,
 };
