@@ -15,7 +15,6 @@
 
 .button.disabled {
   background-color: rgba(150, 150, 150, 0.6);
-  cursor: not-allowed;
 }
 
 

@@ -1,8 +1,8 @@
 @font-face {
   font-family: "ArtSDIcon"; /* Project id 4524558 */
-  src: url('iconfont.woff2?t=1715605182048') format('woff2'),
-       url('iconfont.woff?t=1715605182048') format('woff'),
-       url('iconfont.ttf?t=1715605182048') format('truetype');
+  src: url('iconfont.woff2?t=1716218801271') format('woff2'),
+       url('iconfont.woff?t=1716218801271') format('woff'),
+       url('iconfont.ttf?t=1716218801271') format('truetype');
 }
 
 .ArtSDIcon {
@@ -11,6 +11,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.ArtSD-female:before {
+  content: "\e63b";
+}
+
+.ArtSD-Male-:before {
+  content: "\eb44";
 }
 
 .ArtSD-BackgroundEffect-1:before {

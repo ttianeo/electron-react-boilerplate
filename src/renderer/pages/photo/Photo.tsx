@@ -64,6 +64,30 @@ export default function Photo() {
 
   const [photo, setPhoto] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const [sex, setSex] = useState(0);
+
+  // 监听photo变化，生成图片
+  useEffect(() => {
+    if (photo) {
+      const form = new FormData();
+      form.append('img', photo);
+      axios
+        .post('/sex', form)
+        .then((res) => {
+          if (res.data.data === 'Male') {
+            setSex(0);
+          } else {
+            setSex(1);
+          }
+          return res.data;
+        })
+        .catch((err) => {
+          return err;
+        });
+    }
+  }, [photo]);
+
   const generate = () => {
     if (photo) {
       const form = new FormData();
@@ -102,8 +126,10 @@ export default function Photo() {
   }, [index, gen]);
 
   useEffect(() => {
+    const form = new FormData();
+    form.append('sex', sex.toString());
     axios
-      .get('/stylelist')
+      .post('/stylelist', form)
       .then((res) => {
         const s = [] as { key: string; src: string; nickname: string }[];
         const g = [] as { key: string; src: string; imgID: string }[];
@@ -126,7 +152,7 @@ export default function Photo() {
       .catch((err) => {
         return err;
       });
-  }, []);
+  }, [sex]);
   const [status, setStatus] = useState('start');
   return (
     <div className={style.home}>
@@ -205,6 +231,43 @@ export default function Photo() {
               style={{
                 position: 'absolute',
                 top: -270,
+                left: 10,
+                zIndex: 100,
+              }}
+            />
+            <Button
+              onclick={() => {
+                setSex(sex === 0 ? 1 : 0);
+              }}
+              text="性别选择"
+              icon={
+                <span
+                  style={{
+                    fontFamily: 'ArtSDIcon',
+                  }}
+                >
+                  {sex === 1 ? (
+                    <span
+                      style={{
+                        fontFamily: 'ArtSDIcon',
+                      }}
+                    >
+                      &#xe63b;
+                    </span>
+                  ) : (
+                    <span
+                      style={{
+                        fontFamily: 'ArtSDIcon',
+                      }}
+                    >
+                      &#xeb44;
+                    </span>
+                  )}
+                </span>
+              }
+              style={{
+                position: 'absolute',
+                top: -180,
                 left: 10,
                 zIndex: 100,
               }}
