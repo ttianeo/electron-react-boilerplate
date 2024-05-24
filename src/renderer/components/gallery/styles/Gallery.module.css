@@ -57,11 +57,11 @@
   display: block;
   color: #fff;
   padding: 4px 8px;
-  width: calc(100% - 10px);
+  width: calc(100%);
   line-height: 1;
   text-align: center;
 }
 
 .label.active {
-  width: calc(100% - 18px);
+  width: calc(100% - 8px);
 }

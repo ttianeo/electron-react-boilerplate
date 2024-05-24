@@ -5,7 +5,7 @@ import style from './styles/Gallery.module.css';
 export interface GalleryProps {
   images: { key: string; src: string; nickname: string | null }[];
   active?: number;
-  width?: number;
+  width?: number | string;
   gap?: string;
   select?: (index: number) => void;
 }
@@ -28,6 +28,7 @@ export default function Gallery({
         click: true,
         HWCompositing: true,
         momentum: false,
+        disableTouch: false,
       });
       setBs(s);
       return () => {
@@ -60,6 +61,11 @@ export default function Gallery({
               role="button"
               tabIndex={0}
               onKeyDown={() => {}}
+              style={{
+                marginRight: gap,
+                width,
+              }}
+              id={`gallery-${index}`}
             >
               <img
                 src={image.src}
@@ -69,16 +75,16 @@ export default function Gallery({
                 }}
                 style={{
                   marginRight: gap,
-                  width,
+                  width: '100%',
                 }}
               />
               {image.nickname && (
                 <div
                   style={{
                     position: 'relative',
-                    top: -49,
+                    top: -96,
                     textAlign: 'left',
-                    fontSize: 20,
+                    fontSize: 56,
                   }}
                   className={
                     style.labelCT + (active === index ? ` ${style.active}` : ``)
@@ -103,7 +109,7 @@ export default function Gallery({
 
 Gallery.defaultProps = {
   gap: 10,
-  width: 120,
+  width: 280,
   active: 0,
   select: () => {},
 };

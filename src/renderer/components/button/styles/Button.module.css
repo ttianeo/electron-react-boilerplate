@@ -11,22 +11,22 @@
   cursor: pointer;
   text-align: center;
   transition: background-color 0.3s;
+  transform: scale(2);
 }
 
 .button.disabled {
   background-color: rgba(150, 150, 150, 0.6);
 }
 
-
 .text {
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: normal;
   position: absolute;
   padding: 0.5rem;
   background-color: #455066ce;
   top: 50%;
-  right: -80px;
-  transform: translate(calc(-180px), -50%);
+  right: -280px;
+  transform: translate(calc(-420px), -50%);
   border-radius: 0.5rem;
   color: rgb(212, 212, 212);
 }

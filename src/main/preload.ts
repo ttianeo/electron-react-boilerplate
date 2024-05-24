@@ -8,6 +8,8 @@ export type Channels =
   | 'print-image-done'
   | 'print-printers'
   | 'print-printers-reply'
+  | 'printer-status'
+  | 'printer-status-reply'
   | 'config-read'
   | 'config-read-reply'
   | 'config-write'

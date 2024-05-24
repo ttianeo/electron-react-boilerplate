@@ -58,7 +58,10 @@ const createWindow = async () => {
       webSecurity: false,
     },
     autoHideMenuBar: true,
+    fullscreen: true,
   });
+
+  mainWindow.fullScreenable = true;
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 

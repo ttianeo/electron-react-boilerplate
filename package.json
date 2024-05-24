@@ -176,8 +176,8 @@
     "webpack-merge": "^5.9.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "ArtSD",
+    "appId": "cn.edu.hdu.ArtSD",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [

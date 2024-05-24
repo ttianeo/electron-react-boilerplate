@@ -138,6 +138,9 @@ export default function Preference() {
             <option key={90} value={90}>
               {90}
             </option>
+            <option key={180} value={180}>
+              {180}
+            </option>
           </select>
         </div>
         <div>
@@ -214,10 +217,10 @@ export default function Preference() {
             }}
           >
             <option key="3inch" value="3inch">
-              3inch
+              3英寸
             </option>
             <option key="6inch" value="6inch">
-              6inch
+              6英寸
             </option>
           </select>
         </div>

@@ -36,10 +36,10 @@
 }
 
 .mask .start {
-  width: 160px;
-  height: 160px;
+  width: 300px;
+  height: 300px;
   background: #fff;
-  border-radius: 6px;
+  border-radius: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +50,7 @@
 
 .mask .count {
   color: #ffffffbb;
-  font-size: 120px;
+  font-size: 180px;
 }
 
 .result {
@@ -73,7 +73,35 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
-  opacity: 0.5;
+  opacity: 0.2;
   /* 点击穿透 */
   pointer-events: none;
+}
+
+.noopMask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  font-size: 10rem;
+  color: #fff;
+}
+
+.load {
+  animation: rotate 2s linear infinite;
+}
+
+/* animation rotate */
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

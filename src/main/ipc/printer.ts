@@ -88,4 +88,24 @@ export default function ipcPrinter(mainWindow: BrowserWindow) {
         return err;
       });
   });
+
+  ipcMain.on('printer-status', async (event) => {
+    mainWindow?.webContents
+      .getPrintersAsync()
+      .then((printers) => {
+        // 返回打印机列表
+        const cpath = path.join('./', 'config.json');
+        fs.readFile(cpath, 'utf-8', (err: any, data: any) => {
+          const config = JSON.parse(data);
+          const printer = printers.find((p) => p.name === config.print.printer);
+          if (printer) {
+            event.reply('printer-status-reply', printer.status);
+          }
+        });
+        return printers;
+      })
+      .catch((err) => {
+        return err;
+      });
+  });
 }

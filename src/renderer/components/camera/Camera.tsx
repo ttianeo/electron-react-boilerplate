@@ -15,16 +15,28 @@ export default function Camera({ status, finish, style }: CameraProps) {
   const [countShow, setCountShow] = useState(false);
 
   const [config, setConfig] = useState({} as any);
+  const [mask, setMask] = useState(false);
 
   const router = useNavigate();
+
+  useEffect(() => {
+    if (status !== 'finish') {
+      const img = document.getElementById('res') as HTMLImageElement;
+      img.src = '';
+    }
+  }, [status]);
 
   const start = () => {
     setCountShow(true);
     const timer = setInterval(() => {
       setCount((c) => {
-        if (c === 1) {
-          setCountShow(false);
-          clearInterval(timer);
+        if (c <= 2) {
+          // 立即执行
+          setTimeout(() => {
+            setMask(true);
+          }, 0);
+        }
+        if (c <= 1) {
           const video = document.getElementById('camera') as HTMLVideoElement;
           const canvas = document.getElementById('canvas') as HTMLCanvasElement;
           canvas.width = video.videoWidth;
@@ -54,6 +66,15 @@ export default function Camera({ status, finish, style }: CameraProps) {
               canvas.height = video.videoWidth;
               ctx.rotate((-90 * Math.PI) / 180);
             }
+
+            if (config.camera.rotate === '180') {
+              meta.x = -video.videoWidth;
+              meta.y = -video.videoHeight;
+              canvas.width = video.videoWidth;
+              canvas.height = video.videoHeight;
+              ctx.rotate((-180 * Math.PI) / 180);
+            }
+
             ctx.drawImage(video, meta.x, meta.y, meta.width, meta.height);
 
             // 裁剪掉多余的部分
@@ -102,8 +123,13 @@ export default function Camera({ status, finish, style }: CameraProps) {
             });
 
             img.src = clipData;
-            img.onload = () => {};
+            img.onload = () => {
+              setCountShow(false);
+              setMask(false);
+              clearInterval(timer);
+            };
           }
+
           return 5;
         }
         return c - 1;
@@ -163,6 +189,14 @@ export default function Camera({ status, finish, style }: CameraProps) {
               ctx.rotate((-90 * Math.PI) / 180);
             }
 
+            if (cfg.camera.rotate === '180') {
+              meta.x = -video.videoWidth;
+              meta.y = -video.videoHeight;
+              canvas.width = video.videoWidth;
+              canvas.height = video.videoHeight;
+              ctx.rotate((-180 * Math.PI) / 180);
+            }
+
             const tick = () => {
               // 旋转
 
@@ -199,7 +233,7 @@ export default function Camera({ status, finish, style }: CameraProps) {
         {!countShow && (
           <div
             className={styles.start}
-            onClick={() => {
+            onTouchStart={() => {
               start();
             }}
             onKeyDown={() => {}}
@@ -210,7 +244,7 @@ export default function Camera({ status, finish, style }: CameraProps) {
               style={{
                 fontFamily: 'ArtSDIcon',
                 display: 'block',
-                fontSize: '4rem',
+                fontSize: '6rem',
                 marginBottom: '1rem',
                 color: '#2A82E4',
               }}
@@ -220,7 +254,7 @@ export default function Camera({ status, finish, style }: CameraProps) {
             <div>
               <span
                 style={{
-                  fontSize: '1rem',
+                  fontSize: '3rem',
                   color: '#2A82E4',
                 }}
               >
@@ -229,18 +263,33 @@ export default function Camera({ status, finish, style }: CameraProps) {
             </div>
           </div>
         )}
-        {countShow && (
+        <div
+          className={styles.noopMask}
+          style={{
+            display: mask ? 'flex' : 'none',
+          }}
+        >
+          <span
+            style={{
+              fontFamily: 'ArtSDIcon',
+            }}
+            className={styles.load}
+          >
+            &#xe891;
+          </span>
+        </div>
+        {countShow && count - 1 !== 0 && (
           <div className={styles.count}>
             <div
               style={{
                 textAlign: 'center',
               }}
             >
-              {count}
+              {count - 1}
             </div>
             <div
               style={{
-                fontSize: '2rem',
+                fontSize: '4rem',
                 textAlign: 'center',
               }}
             >
@@ -264,7 +313,9 @@ export default function Camera({ status, finish, style }: CameraProps) {
           id="res"
           alt="result"
           style={{
-            display: status === 'finish' ? 'block' : 'none',
+            // display: status === 'finish' ? 'block' : 'none',
+            display: 'block',
+            pointerEvents: 'none',
           }}
           className={styles.result}
         />

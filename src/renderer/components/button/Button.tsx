@@ -16,12 +16,17 @@ export default function Button({
   text,
   active,
 }: ButtonProps) {
+  let lastTime = 0;
+
   return (
     <div style={style}>
       {text !== '' && <div className={styles.text}>{text}</div>}
       <button
-        onClick={(e) => {
-          onclick(e);
+        onTouchStart={() => {
+          if (Date.now() - lastTime > 300) {
+            lastTime = Date.now();
+            onclick({} as React.MouseEvent);
+          }
         }}
         onKeyDown={() => {}}
         tabIndex={0}
