@@ -8,6 +8,7 @@ export interface GalleryProps {
   width?: number | string;
   gap?: string;
   select?: (index: number) => void;
+  more?: () => void;
 }
 
 export default function Gallery({
@@ -16,27 +17,40 @@ export default function Gallery({
   width,
   gap,
   select,
+  more,
 }: GalleryProps) {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const [bs, setBs] = React.useState<BScroll | null>(null);
 
+  const [last, setLast] = React.useState<number>(0);
+
   useEffect(() => {
     if (ref.current) {
       const s = new BScroll(ref.current, {
+        probeType: 3,
         scrollX: true,
         scrollY: false,
         click: true,
-        HWCompositing: true,
-        momentum: false,
         disableTouch: false,
       });
+      s.on('scrollEnd', (e: { x: number }) => {
+        const maxX = s.maxScrollX;
+        if (Math.abs(e.x - maxX) < 30) {
+          setLast(images.length - 1);
+          more?.();
+        }
+      });
+      s.on('refresh', () => {
+        s.scrollToElement(`#gallery-${last}`, 0, true, true);
+      });
+
       setBs(s);
       return () => {
         s.destroy();
       };
     }
     return () => {};
-  }, [ref]);
+  }, [more, ref]);
 
   return (
     <div className={style.horizontal}>
@@ -72,6 +86,7 @@ export default function Gallery({
                 alt={image.key}
                 onLoad={() => {
                   bs?.refresh();
+                  console.log('refresh');
                 }}
                 style={{
                   marginRight: gap,
@@ -112,4 +127,5 @@ Gallery.defaultProps = {
   width: 280,
   active: 0,
   select: () => {},
+  more: () => {},
 };

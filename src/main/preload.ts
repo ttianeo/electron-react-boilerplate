@@ -14,7 +14,9 @@ export type Channels =
   | 'config-read-reply'
   | 'config-write'
   | 'config-hash'
-  | 'config-hash-reply';
+  | 'config-hash-reply'
+  | 'sex'
+  | 'sex-reply';
 
 const electronHandler = {
   ipcRenderer: {

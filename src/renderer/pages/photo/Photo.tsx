@@ -66,25 +66,52 @@ export default function Photo() {
   const [loading, setLoading] = useState(false);
 
   const [sex, setSex] = useState(0);
+  const [logSex, setLogSex] = useState('');
+
+  useEffect(() => {
+    window.electron.ipcRenderer.on('sex-reply', (event: any) => {
+      console.log(event);
+      // 去除/r/n
+      const s = event[0].replace(/[\r\n]/g, '');
+      setLogSex(s);
+      if (s === 'Male') {
+        setSex(0);
+      } else {
+        setSex(1);
+      }
+    });
+  }, []);
 
   // 监听photo变化，生成图片
   useEffect(() => {
     if (photo) {
       const form = new FormData();
       form.append('img', photo);
-      axios
-        .post('/sex', form)
+      const blob = new Blob([photo], { type: 'image/png' });
+      blob
+        .arrayBuffer()
         .then((res) => {
-          if (res.data.data === 'Male') {
-            setSex(0);
-          } else {
-            setSex(1);
-          }
-          return res.data;
+          console.log(res);
+          window.electron.ipcRenderer.sendMessage('sex', [res]);
+          return res;
         })
         .catch((err) => {
           return err;
         });
+
+      // axios
+      //   .post('/sex', form)
+      //   .then((res) => {
+      //     if (res.data.data === 'Male') {
+      //       setSex(0);
+      //     } else {
+      //       setSex(1);
+      //     }
+      //     return res.data;
+      //   })
+      //   .catch((err) => {
+      //     return err;
+      //   });
     }
   }, [photo]);
 

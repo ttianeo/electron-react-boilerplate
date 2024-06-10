@@ -5,6 +5,7 @@ import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import ipcPrinter from './ipc/printer';
 import ipcConfig from './ipc/config';
+import ipcSex from './ipc/sex';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -91,6 +92,7 @@ const createWindow = async () => {
 
   ipcPrinter(mainWindow);
   ipcConfig();
+  ipcSex();
 };
 
 /**

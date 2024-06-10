@@ -5,7 +5,6 @@ import Gallery from '../../components/gallery/Gallery';
 import style from './styles/Home.module.css';
 import Button from '../../components/button/Button';
 import sn from '../../inter/sn';
-import { PrinterInfo } from 'electron';
 
 export default function Home() {
   const [index, setIndex] = useState(0);
@@ -22,6 +21,9 @@ export default function Home() {
   const [printing, setPrinting] = useState(false);
 
   const [confirm, setConfirm] = useState(false);
+
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(6);
   const debounce = (fn: Function, delay: number) => {
     // 防抖
     let lastTime = 0;
@@ -68,21 +70,25 @@ export default function Home() {
       setPrinting(false);
     });
 
+    const hform = new FormData();
+    hform.append('page', page.toString());
+    hform.append('page_size', size.toString());
+
     axios
-      .get('/history')
+      .post('/history', hform)
       .then((res) => {
         const img = [] as {
           key: string;
           src: string;
           nickname: string | null;
         }[];
-        if (res.data.data.length === 0) {
+        if (res.data.data.pathlist.length === 0) {
           return res.data;
         }
-        for (let i = 0; i < res.data.data.length; i += 1) {
+        for (let i = 0; i < res.data.data.pathlist.length; i += 1) {
           img.push({
-            key: res.data.data[i].id,
-            src: `${axios.defaults.baseURL}minio${res.data.data[i].processed_url}`,
+            key: res.data.data.pathlist[i].id,
+            src: `${axios.defaults.baseURL}minio${res.data.data.pathlist[i].processed_url}`,
             nickname: null,
           });
         }
@@ -93,6 +99,40 @@ export default function Home() {
         return err;
       });
   }, [router]);
+
+  const more = () => {
+    const hform = new FormData();
+    hform.append('page', (page + 1).toString());
+    hform.append('page_size', size.toString());
+
+    axios
+      .post('/history', hform)
+      .then((res) => {
+        const img = [] as {
+          key: string;
+          src: string;
+          nickname: string | null;
+        }[];
+        if (res.data.data.pathlist.length === 0) {
+          return res.data;
+        }
+        setPage(page + 1);
+        for (let i = 0; i < res.data.data.pathlist.length; i += 1) {
+          img.push({
+            key: res.data.data.pathlist[i].id,
+            src: `${axios.defaults.baseURL}minio${res.data.data.pathlist[i].processed_url}`,
+            nickname: null,
+          });
+        }
+        console.log(img);
+        setImages([...images, ...img]);
+
+        return res.data;
+      })
+      .catch((err) => {
+        return err;
+      });
+  };
 
   return (
     <div className={style.home}>
@@ -264,6 +304,7 @@ export default function Home() {
           width={260}
           active={index}
           gap="10px"
+          more={more}
         />
       </div>
     </div>
