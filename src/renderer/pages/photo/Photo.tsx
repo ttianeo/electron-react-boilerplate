@@ -62,6 +62,8 @@ export default function Photo() {
 
   const [curImgUrl, setCurImgUrl] = useState('' as string);
 
+  const [rawUrl, setRawUrl] = useState('' as string);
+
   const [photo, setPhoto] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -118,9 +120,17 @@ export default function Photo() {
   const generate = () => {
     if (photo) {
       const form = new FormData();
-      form.append('img', photo);
+      if (rawUrl === '') {
+        form.append('img', photo);
+      } else {
+        form.append('raw_img_url', rawUrl);
+        const blank = new Blob([''], { type: 'text/plain' });
+        form.append('img', blank);
+      }
+
       form.append('style', styles[index].key);
       form.append('background', `${bg}`);
+
       setLoading(true);
       axios
         .post('/generate', form, {
@@ -139,6 +149,7 @@ export default function Photo() {
             `${axios.defaults.baseURL}minio${res.data.data.processed_url}`,
           );
           setLoading(false);
+          setRawUrl(res.data.data.raw_url);
           return res.data;
         })
         .catch((err) => {
